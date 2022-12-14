@@ -1,4 +1,4 @@
-#include "main.h"
+#include "monty.h"
 
 /**
  * get_fun - interpreate the instructions

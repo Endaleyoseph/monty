@@ -1,4 +1,4 @@
-#include "main.h"
+#include "monty.h"
 
 /**
  * free_list - frees a linked list
