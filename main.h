@@ -1,6 +1,8 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+#include <string.h>
+#include <ctype.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -41,5 +43,9 @@ typedef struct instruction_s
 } instruction_t;
 
 void push(stack_t **stack, unsigned int line_number, const char *n);
+void (*get_opcode(char *opcode))(stack_t **stack, unsigned int line_number);
+void get_fun(stack_t **stack, char *buffer);
+void free_list(stack_t **stack);
+void pall(stack_t **stack, unsigned int line_number);
 
 #endif
