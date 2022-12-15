@@ -38,12 +38,10 @@ void get_fun(stack_t **stack, char *buffer)
 			{
 				free_list(stack);
 				printf("L%u: unknown instruction %s\n", line_number, token);
-				free(token);
 				exit(EXIT_FAILURE);
 			}
 		}
 			line_number++;
 			token = strtok(NULL, "\n\t\a\r :;");
 	}
-	free(token);
 }
