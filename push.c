@@ -14,8 +14,8 @@ void push(stack_t **stack, unsigned int line_number, const char *n)
 
 	if (isdigit(atoi(n)) != 0 || (atoi(n) == 0 && *n != '0'))
 	{
-		fprintf(stderr, "L%u: usage: push integer\n", line_number);
 		free_list(stack);
+		fprintf(stderr, "L%u: usage: push integer\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 
@@ -32,4 +32,36 @@ void push(stack_t **stack, unsigned int line_number, const char *n)
 		(*stack)->prev = new;
 	new->next = *stack;
 	*stack = new;
+}
+
+/**
+ * pop - removes the TOS element
+ * @stack: pointer to TOS
+ * @line_number: line number
+ *
+ */
+
+void pop(stack_t **stack, unsigned int line_number)
+{
+	stack_t *tmp = NULL;
+
+	if (stack == NULL || *stack == NULL)
+	{
+		fprintf(stderr, "L%u: can't pop an empty stack\n", line_number);
+		free_list(stack);
+		exit(EXIT_FAILURE);
+	}
+
+	tmp = *stack;
+	if ((*stack)->next == NULL)
+	{
+		*stack = NULL;
+		free(tmp);
+	}
+	else
+	{
+		*stack = (*stack)->next;
+		(*stack)->prev = NULL;
+		free(tmp);
+	}
 }
