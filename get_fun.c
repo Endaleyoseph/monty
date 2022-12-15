@@ -77,12 +77,6 @@ int get_fun(stack_t **stack, char *buffer)
 		{
 			check_push = 1;
 			token = strtok(NULL, "\n\t\a\r :;");
-			if (token == NULL)
-			{
-				free_list(stack);
-				fprintf(stderr, "L%u: usage: push integer\n", line_number);
-				return (-1);
-			}
 			continue;
 		}
 		else
