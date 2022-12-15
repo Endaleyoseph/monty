@@ -1,1 +1,1 @@
-pall
+pal

@@ -42,13 +42,15 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-void push(stack_t **stack, unsigned int line_number, const char *n);
+int push(stack_t **stack, unsigned int line_number, const char *n);
 void (*get_opcode(char *opcode))(stack_t **stack, unsigned int line_number);
-void get_fun(stack_t **stack, char *buffer);
+int get_fun(stack_t **stack, char *buffer);
 void free_list(stack_t **stack);
 void pall(stack_t **stack, unsigned int line_number);
 void pint(stack_t **stack, unsigned int line_number);
 void pop(stack_t **stack, unsigned int line_number);
 void swap(stack_t **stack, unsigned int line_number);
+void add(stack_t **stack, unsigned int line_number);
+void nop(stack_t **stack, unsigned int line_number);
 
 #endif

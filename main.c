@@ -18,7 +18,6 @@ int main(int argc, char **argv)
 		fprintf(stderr, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
-
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 	{
@@ -39,10 +38,13 @@ int main(int argc, char **argv)
 		close(fd);
 		exit(EXIT_FAILURE);
 	}
-	get_fun(&stack, buffer);
+	if (get_fun(&stack, buffer) == -1)
+	{
+		free(buffer);
+		exit(EXIT_FAILURE);
+	}
 	free_list(&stack);
 	free(buffer);
 	close(fd);
-
 	return (0);
 }

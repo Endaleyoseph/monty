@@ -5,10 +5,10 @@
  * @stack: pointer to pointer to top of stack
  * @line_number: line number
  * @n: number to be added
- *
+ * Return: 0 on success, or -1 if it fails
  */
 
-void push(stack_t **stack, unsigned int line_number, const char *n)
+int push(stack_t **stack, unsigned int line_number, const char *n)
 {
 	stack_t *new;
 
@@ -16,7 +16,7 @@ void push(stack_t **stack, unsigned int line_number, const char *n)
 	{
 		free_list(stack);
 		fprintf(stderr, "L%u: usage: push integer\n", line_number);
-		exit(EXIT_FAILURE);
+		return (-1);
 	}
 
 	new = malloc(sizeof(stack_t));
@@ -32,6 +32,7 @@ void push(stack_t **stack, unsigned int line_number, const char *n)
 		(*stack)->prev = new;
 	new->next = *stack;
 	*stack = new;
+	return (0);
 }
 
 /**

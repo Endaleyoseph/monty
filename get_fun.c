@@ -1,13 +1,61 @@
 #include "monty.h"
 
 /**
+ * check_stack - check stack status
+ * @stack: pointer to TOS
+ * @token: opcode
+ * @line: line number
+ * Return: 0 on success, -1 if it fails
+ */
+int check_stack(stack_t **stack, char *token, unsigned int line)
+{
+	if (strcmp(token, "pop") == 0)
+	{
+		if (!(stack) || !(*stack))
+		{
+			free_list(stack);
+			fprintf(stderr, "L%u: can't pop an empty stack\n", line);
+			return (-1);
+		}
+	}
+	else if (strcmp(token, "pint") == 0)
+	{
+		if (!(stack) || !(*stack))
+		{
+			free_list(stack);
+			fprintf(stderr, "L%u: can't pint, stack empty\n", line);
+			return (-1);
+		}
+	}
+	else if (strcmp(token, "swap") == 0)
+	{
+		if (!(stack) || !(*stack) || (*stack)->next == NULL)
+		{
+			free_list(stack);
+			fprintf(stderr, "L%u: can't swap, stack too short\n", line);
+			return (-1);
+		}
+	}
+	else if (strcmp(token, "add") == 0)
+	{
+		if (!(stack) || !(*stack) || (*stack)->next == NULL)
+		{
+			free_list(stack);
+			fprintf(stderr, "L%u: can't add, stack too short\n", line);
+			return (-1);
+		}
+	}
+	return (0);
+}
+
+/**
  * get_fun - interpreate the instructions
  * @buffer: string read from a file
  * @stack: pointer to pointer to TOS
- *
+ * Return: 0 on success, -1 if it fails
  */
 
-void get_fun(stack_t **stack, char *buffer)
+int get_fun(stack_t **stack, char *buffer)
 {
 	unsigned int line_number = 1;
 	int check_push = 0;
@@ -19,7 +67,8 @@ void get_fun(stack_t **stack, char *buffer)
 		if (check_push == 1)
 		{
 			check_push = 0;
-			push(stack, line_number, token);
+			if (push(stack, line_number, token) == -1)
+				return (-1);
 			token = strtok(NULL, "\n\t\a\r :;");
 			line_number++;
 			continue;
@@ -32,16 +81,19 @@ void get_fun(stack_t **stack, char *buffer)
 		}
 		else
 		{
+			if (check_stack(stack, token, line_number) == -1)
+				return (-1);
 			if (get_opcode(token) != 0)
 				get_opcode(token)(stack, line_number);
 			else
 			{
 				free_list(stack);
 				printf("L%u: unknown instruction %s\n", line_number, token);
-				exit(EXIT_FAILURE);
+				return (-1);
 			}
 		}
 			line_number++;
 			token = strtok(NULL, "\n\t\a\r :;");
 	}
+	return (0);
 }
