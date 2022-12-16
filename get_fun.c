@@ -98,7 +98,7 @@ int get_fun(stack_t **stack, char *buffer)
 			else
 			{
 				free_list(stack);
-				printf("L%u: unknown instruction %s\n", line_number, token);
+				fprintf(stderr, "L%u: unknown instruction %s\n", line_number, token);
 				return (-1);
 			}
 		}
