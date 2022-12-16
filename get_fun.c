@@ -1,4 +1,23 @@
 #include "monty.h"
+/**
+ * filter - filters opcode
+ * @opcode: opcode
+ * Return: 1 on success, -1 if it fails
+ */
+
+int filter(char *opcode)
+{
+	char *a[] = {"add", "sub", "div", "swap", "mul", "mod", NULL};
+	int i = 0;
+
+	while (a[i] != NULL)
+	{
+		if (strcmp(opcode, a[i]) == 0)
+			return (1);
+		i++;
+	}
+	return (-1);
+}
 
 /**
  * check_stack - check stack status
@@ -27,7 +46,7 @@ int check_stack(stack_t **stack, char *token, unsigned int line)
 			return (-1);
 		}
 	}
-	else if (strcmp(token, "pall") != 0 && strcmp(token, "nop") != 0)
+	else if (filter(token) == 1)
 	{
 		if (!(stack) || !(*stack) || (*stack)->next == NULL)
 		{
@@ -66,8 +85,8 @@ int get_fun(stack_t **stack, char *buffer)
 		}
 		else if (strcmp(token, "push") == 0)
 		{
-			check_push = 1;
 			token = strtok(NULL, "\n\t\a\r :;");
+			check_push = 1;
 			continue;
 		}
 		else

@@ -1,6 +1,29 @@
 #include "monty.h"
 
 /**
+ * check_n - checks for number validity
+ * @n: string number
+ * Return: 1 if valied, or -1 if not
+ */
+
+int check_n(const char *n)
+{
+	int i = 0;
+
+	if (n[0] == '-' && n[1] == '0')
+		return (1);
+	if (n[0] == '-')
+		i++;
+	while (n[i] != '\0')
+	{
+		if (!(n[i] >= '0' && n[i] <= '9'))
+			return (-1);
+		i++;
+	}
+	return (1);
+}
+
+/**
  * push - inserts a node to the TOS
  * @stack: pointer to pointer to top of stack
  * @line_number: line number
@@ -12,7 +35,7 @@ int push(stack_t **stack, unsigned int line_number, const char *n)
 {
 	stack_t *new;
 
-	if (isdigit(atoi(n)) != 0 || (atoi(n) == 0 && *n != '0'))
+	if (check_n(n) == -1 || n == NULL)
 	{
 		free_list(stack);
 		fprintf(stderr, "L%u: usage: push integer\n", line_number);
@@ -32,7 +55,7 @@ int push(stack_t **stack, unsigned int line_number, const char *n)
 		(*stack)->prev = new;
 	new->next = *stack;
 	*stack = new;
-	return (0);
+	return (1);
 }
 
 /**
