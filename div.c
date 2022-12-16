@@ -1,20 +1,20 @@
 #include "monty.h"
 
 /**
- * add - adds the top two elements
+ * _div - adds the top two elements
  * @stack: pointer to TOS
  * @line_number: line number
  *
  */
 
-void add(stack_t **stack, unsigned int line_number)
+void _div(stack_t **stack, unsigned int line_number)
 {
 	stack_t *tmp = NULL;
 	stack_t *new;
 
 	if (!(*stack) || (*stack)->next == NULL)
 	{
-		fprintf(stderr, "L%u: can't add, stack too short\n", line_number);
+		fprintf(stderr, "L%u: can't div, stack too short\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 
@@ -26,7 +26,7 @@ void add(stack_t **stack, unsigned int line_number)
 	}
 
 	tmp = (*stack)->next;
-	new->n = tmp->prev->n + tmp->n;
+	new->n = tmp->n / tmp->prev->n;
 	new->prev = NULL;
 	new->next = tmp->next;
 	if (tmp->next != NULL)
@@ -38,19 +38,19 @@ void add(stack_t **stack, unsigned int line_number)
 }
 
 /**
- * sub - substracts top two elements
+ * mul - substracts top two elements
  * @stack: pointer to TOS
  * @line_number: line number
  *
  */
-void sub(stack_t **stack, unsigned int line_number)
+void mul(stack_t **stack, unsigned int line_number)
 {
 	stack_t *tmp = NULL;
 	stack_t *new;
 
 	if (!(*stack) || (*stack)->next == NULL)
 	{
-		fprintf(stderr, "L%u: can't sub, stack too short\n", line_number);
+		fprintf(stderr, "L%u: can't mul, stack too short\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 
@@ -62,7 +62,7 @@ void sub(stack_t **stack, unsigned int line_number)
 	}
 
 	tmp = (*stack)->next;
-	new->n = tmp->n - tmp->prev->n;
+	new->n = tmp->n * tmp->prev->n;
 	new->prev = NULL;
 	new->next = tmp->next;
 	if (tmp->next != NULL)
@@ -71,4 +71,27 @@ void sub(stack_t **stack, unsigned int line_number)
 	tmp->next = NULL;
 	free(tmp->prev);
 	free(tmp);
+}
+
+/**
+ * mod - computs the modulus of TOS
+ * @stack: pointer to TOS
+ * @line_number: line number
+ *
+ */
+void mod(stack_t **stack, unsigned int line_number)
+{
+	stack_t *tmp = NULL;
+
+	if (!(*stack) || (*stack)->next == NULL)
+	{
+		fprintf(stderr, "L%u: can't mul, stack too short\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+
+	tmp = (*stack)->next;
+	tmp->n = tmp->n % tmp->prev->n;
+	*stack = tmp;
+	tmp->prev->next = NULL;
+	free(tmp->prev);
 }

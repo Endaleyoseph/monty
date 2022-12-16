@@ -27,21 +27,12 @@ int check_stack(stack_t **stack, char *token, unsigned int line)
 			return (-1);
 		}
 	}
-	else if (strcmp(token, "swap") == 0)
+	else if (strcmp(token, "pall") != 0 && strcmp(token, "nop") != 0)
 	{
 		if (!(stack) || !(*stack) || (*stack)->next == NULL)
 		{
 			free_list(stack);
-			fprintf(stderr, "L%u: can't swap, stack too short\n", line);
-			return (-1);
-		}
-	}
-	else if (strcmp(token, "add") == 0)
-	{
-		if (!(stack) || !(*stack) || (*stack)->next == NULL)
-		{
-			free_list(stack);
-			fprintf(stderr, "L%u: can't add, stack too short\n", line);
+			fprintf(stderr, "L%u: can't %s, stack too short\n", line, token);
 			return (-1);
 		}
 	}
